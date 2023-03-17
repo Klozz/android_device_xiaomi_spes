@@ -1,27 +1,12 @@
-ifneq ($(strip $(TARGET_PROVIDES_AUDIO_EXTNS)),true)
-
 #AudioHal-primaryHal-Hal path
 ifneq ($(BOARD_OPENSOURCE_DIR), )
   PRIMARY_HAL_PATH := $(BOARD_OPENSOURCE_DIR)/audio-hal/primary-hal/hal
   AUDIO_KERNEL_INC := $(TARGET_OUT_INTERMEDIATES)/$(BOARD_OPENSOURCE_DIR)/audio-kernel/include
 else
-  PRIMARY_HAL_PATH := $(TARGET_HALS_PATH)/audio/hal
+  PRIMARY_HAL_PATH := device/xiaomi/spes/hals/audio/hal
   AUDIO_KERNEL_INC := $(TARGET_OUT_INTERMEDIATES)/vendor/qcom/opensource/audio-kernel/include
 endif # BOARD_OPENSOURCE_DIR
 
-ifneq ($(TARGET_BOARD_AUTO),true)
-  LIBRARY_TINYCOMPRESS := libtinycompress
-  LIBRARY_TINYCOMPRESS_INC := external/tinycompress/include
-else
-  LIBRARY_TINYCOMPRESS := libqti-tinycompress
-  LIBRARY_TINYCOMPRESS_INC := $(TOP)/vendor/qcom/opensource/tinycompress/include
-endif
-
-ifeq ($(ENABLE_AUDIO_LEGACY_TECHPACK),true)
-  LIBRARY_TINYCOMPRESS := libtinycompress
-  LIBRARY_TINYCOMPRESS_INC := external/tinycompress/include
-  LOCAL_CFLAGS += -DENABLE_AUDIO_LEGACY_PURE
-endif
 #--------------------------------------------
 #          Build SND_MONITOR LIB
 #--------------------------------------------
@@ -49,14 +34,14 @@ LOCAL_SHARED_LIBRARIES := \
     libcutils \
     liblog \
     libtinyalsa \
-    $(LIBRARY_TINYCOMPRESS) \
+    libtinycompress \
     libaudioroute \
     libdl \
     libexpat
 
 LOCAL_C_INCLUDES := \
     external/tinyalsa/include \
-    $(LIBRARY_TINYCOMPRESS_INC) \
+    external/tinycompress/include \
     system/media/audio_utils/include \
     external/expat/lib \
     $(call include-path-for, audio-route) \
@@ -122,14 +107,14 @@ LOCAL_SHARED_LIBRARIES := \
     libcutils \
     liblog \
     libtinyalsa \
-    $(LIBRARY_TINYCOMPRESS) \
+    libtinycompress \
     libaudioroute \
     libdl \
     libexpat
 
 LOCAL_C_INCLUDES := \
     external/tinyalsa/include \
-    $(LIBRARY_TINYCOMPRESS_INC) \
+    external/tinycompress/include \
     system/media/audio_utils/include \
     external/expat/lib \
     $(call include-path-for, audio-route) \
@@ -195,7 +180,7 @@ LOCAL_SHARED_LIBRARIES := \
     libcutils \
     liblog \
     libtinyalsa \
-    $(LIBRARY_TINYCOMPRESS) \
+    libtinycompress \
     libaudioroute \
     libdl \
     libexpat \
@@ -205,17 +190,13 @@ LOCAL_C_INCLUDES := \
     $(PRIMARY_HAL_PATH) \
     $(PRIMARY_HAL_PATH)/$(AUDIO_PLATFORM) \
     external/tinyalsa/include \
-    $(LIBRARY_TINYCOMPRESS_INC) \
+    external/tinycompress/include \
     external/expat/lib \
     system/media/audio_utils/include \
     $(call include-path-for, audio-route) \
     $(call include-path-for, audio-effects) \
     $(TARGET_OUT_HEADERS)/mm-audio/surround_sound_3mic/ \
     $(TARGET_OUT_HEADERS)/common/inc/
-
-ifeq ($(ENABLE_AUDIO_LEGACY_TECHPACK),true)
-LOCAL_HEADER_LIBRARIES += qti_legacy_audio_kernel_uapi
-endif
 
 LOCAL_C_INCLUDES += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include
 LOCAL_C_INCLUDES += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include/audio
@@ -270,14 +251,14 @@ LOCAL_SHARED_LIBRARIES := \
     libcutils \
     liblog \
     libtinyalsa \
-    $(LIBRARY_TINYCOMPRESS) \
+    libtinycompress \
     libaudioroute \
     libdl \
     libexpat
 
 LOCAL_C_INCLUDES := \
     external/tinyalsa/include \
-    $(LIBRARY_TINYCOMPRESS_INC) \
+    external/tinycompress/include \
     system/media/audio_utils/include \
     external/expat/lib \
     $(call include-path-for, audio-route) \
@@ -343,14 +324,14 @@ LOCAL_SHARED_LIBRARIES := \
     libcutils \
     liblog \
     libtinyalsa \
-    $(LIBRARY_TINYCOMPRESS) \
+    libtinycompress \
     libaudioroute \
     libdl \
     libexpat
 
 LOCAL_C_INCLUDES := \
     external/tinyalsa/include \
-    $(LIBRARY_TINYCOMPRESS_INC) \
+    external/tinycompress/include \
     system/media/audio_utils/include \
     external/expat/lib \
     $(call include-path-for, audio-route) \
@@ -424,7 +405,7 @@ LOCAL_SHARED_LIBRARIES := \
 
 LOCAL_C_INCLUDES := \
     external/tinyalsa/include \
-    $(LIBRARY_TINYCOMPRESS_INC) \
+    external/tinycompress/include \
     system/media/audio_utils/include \
     external/expat/lib \
     $(call include-path-for, audio-route) \
@@ -487,7 +468,7 @@ LOCAL_SHARED_LIBRARIES := \
     libcutils \
     liblog \
     libtinyalsa \
-    $(LIBRARY_TINYCOMPRESS) \
+    libtinycompress \
     libaudioroute \
     libdl \
     libexpat
@@ -496,7 +477,7 @@ LOCAL_C_INCLUDES := \
     $(PRIMARY_HAL_PATH) \
     $(PRIMARY_HAL_PATH)/$(AUDIO_PLATFORM) \
     external/tinyalsa/include \
-    $(LIBRARY_TINYCOMPRESS_INC) \
+    external/tinycompress/include \
     external/expat/lib \
     system/media/audio_utils/include \
     $(call include-path-for, audio-route) \
@@ -568,13 +549,13 @@ LOCAL_SHARED_LIBRARIES := \
     libexpat \
     liblog \
     libtinyalsa \
-    $(LIBRARY_TINYCOMPRESS)
+    libtinycompress
 
 LOCAL_C_INCLUDES := \
     $(PRIMARY_HAL_PATH) \
     $(PRIMARY_HAL_PATH)/$(AUDIO_PLATFORM) \
     external/tinyalsa/include \
-    $(LIBRARY_TINYCOMPRESS_INC) \
+    external/tinycompress/include \
     external/expat/lib \
     system/media/audio_utils/include \
     $(call include-path-for, audio-route) \
@@ -639,13 +620,13 @@ LOCAL_SHARED_LIBRARIES := \
     libexpat \
     liblog \
     libtinyalsa \
-    $(LIBRARY_TINYCOMPRESS)
+    libtinycompress
 
 LOCAL_C_INCLUDES := \
     $(PRIMARY_HAL_PATH) \
     $(PRIMARY_HAL_PATH)/$(AUDIO_PLATFORM) \
     external/tinyalsa/include \
-    $(LIBRARY_TINYCOMPRESS_INC) \
+    external/tinycompress/include \
     external/expat/lib \
     system/media/audio_utils/include \
     $(call include-path-for, audio-route) \
@@ -716,13 +697,13 @@ LOCAL_SHARED_LIBRARIES := \
     libexpat \
     liblog \
     libtinyalsa \
-    $(LIBRARY_TINYCOMPRESS)
+    libtinycompress
 
 LOCAL_C_INCLUDES := \
     $(PRIMARY_HAL_PATH) \
     $(PRIMARY_HAL_PATH)/$(AUDIO_PLATFORM) \
     external/tinyalsa/include \
-    $(LIBRARY_TINYCOMPRESS_INC) \
+    external/tinycompress/include \
     external/expat/lib \
     system/media/audio_utils/include \
     $(call include-path-for, audio-route) \
@@ -787,13 +768,13 @@ LOCAL_SHARED_LIBRARIES := \
     libexpat \
     liblog \
     libtinyalsa \
-    $(LIBRARY_TINYCOMPRESS)
+    libtinycompress
 
 LOCAL_C_INCLUDES := \
     $(PRIMARY_HAL_PATH) \
     $(PRIMARY_HAL_PATH)/$(AUDIO_PLATFORM) \
     external/tinyalsa/include \
-    $(LIBRARY_TINYCOMPRESS_INC) \
+    external/tinycompress/include \
     external/expat/lib \
     system/media/audio_utils/include \
     $(call include-path-for, audio-route) \
@@ -858,13 +839,13 @@ LOCAL_SHARED_LIBRARIES := \
     libexpat \
     liblog \
     libtinyalsa \
-    $(LIBRARY_TINYCOMPRESS)
+    libtinycompress
 
 LOCAL_C_INCLUDES := \
     $(PRIMARY_HAL_PATH) \
     $(PRIMARY_HAL_PATH)/$(AUDIO_PLATFORM) \
     external/tinyalsa/include \
-    $(LIBRARY_TINYCOMPRESS_INC) \
+    external/tinycompress/include \
     external/expat/lib \
     system/media/audio_utils/include \
     $(TARGET_OUT_HEADERS)/mm-audio/audio-parsers \
@@ -944,7 +925,7 @@ LOCAL_SHARED_LIBRARIES := \
     libhidlbase \
     liblog \
     libtinyalsa \
-    $(LIBRARY_TINYCOMPRESS) \
+    libtinycompress \
     libutils \
 
 LOCAL_STATIC_LIBRARIES := \
@@ -954,7 +935,7 @@ LOCAL_C_INCLUDES := \
     $(PRIMARY_HAL_PATH) \
     $(PRIMARY_HAL_PATH)/$(AUDIO_PLATFORM) \
     external/tinyalsa/include \
-    $(LIBRARY_TINYCOMPRESS_INC) \
+    external/tinycompress/include \
     external/expat/lib \
     system/media/audio_utils/include \
     $(call include-path-for, audio-route) \
@@ -1009,13 +990,13 @@ LOCAL_SHARED_LIBRARIES := \
     libexpat \
     liblog \
     libtinyalsa \
-    $(LIBRARY_TINYCOMPRESS)
+    libtinycompress
 
 LOCAL_C_INCLUDES := \
     $(PRIMARY_HAL_PATH) \
     $(PRIMARY_HAL_PATH)/$(AUDIO_PLATFORM) \
     external/tinyalsa/include \
-    $(LIBRARY_TINYCOMPRESS_INC) \
+    external/tinycompress/include \
     external/expat/lib \
     system/media/audio_utils/include \
     $(call include-path-for, audio-route) \
@@ -1068,7 +1049,7 @@ LOCAL_SHARED_LIBRARIES := \
     libcutils \
     liblog \
     libtinyalsa \
-    $(LIBRARY_TINYCOMPRESS) \
+    libtinycompress \
     libaudioroute \
     libdl \
     libexpat
@@ -1077,7 +1058,7 @@ LOCAL_C_INCLUDES := \
     $(PRIMARY_HAL_PATH) \
     $(PRIMARY_HAL_PATH)/$(AUDIO_PLATFORM) \
     external/tinyalsa/include \
-    $(LIBRARY_TINYCOMPRESS_INC) \
+    external/tinycompress/include \
     external/expat/lib \
     system/media/audio_utils/include \
     $(call include-path-for, audio-route) \
@@ -1134,7 +1115,7 @@ LOCAL_SHARED_LIBRARIES := \
     libcutils \
     liblog \
     libtinyalsa \
-    $(LIBRARY_TINYCOMPRESS) \
+    libtinycompress \
     libaudioroute \
     libdl \
     libexpat
@@ -1143,7 +1124,7 @@ LOCAL_C_INCLUDES := \
     $(PRIMARY_HAL_PATH) \
     $(PRIMARY_HAL_PATH)/$(AUDIO_PLATFORM) \
     external/tinyalsa/include \
-    $(LIBRARY_TINYCOMPRESS_INC) \
+    external/tinycompress/include \
     external/expat/lib \
     system/media/audio_utils/include \
     $(call include-path-for, audio-route) \
@@ -1204,14 +1185,13 @@ LOCAL_SHARED_LIBRARIES := \
     libcutils \
     libdl \
     libexpat \
-    liblog \
-    libtinyalsa
+    liblog
 
 LOCAL_C_INCLUDES := \
     $(PRIMARY_HAL_PATH) \
     $(PRIMARY_HAL_PATH)/$(AUDIO_PLATFORM) \
     external/tinyalsa/include \
-    $(LIBRARY_TINYCOMPRESS_INC) \
+    external/tinycompress/include \
     external/expat/lib \
     system/media/audio_utils/include \
     $(call include-path-for, audio-route) \
@@ -1259,7 +1239,7 @@ LOCAL_C_INCLUDES:= \
         system/media/audio/include
 
 LOCAL_SHARED_LIBRARIES:= \
-        android.frameworks.automotive.powerpolicy-V1-ndk \
+        android.frameworks.automotive.powerpolicy-V1-ndk_platform \
         libbase \
         libbinder_ndk \
         libcutils \
@@ -1275,5 +1255,4 @@ ifeq ($(strip $(AUDIO_FEATURE_ENABLED_DAEMON_SUPPORT)),true)
 endif
 
 include $(BUILD_SHARED_LIBRARY)
-endif
 endif
